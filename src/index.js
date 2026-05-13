@@ -1,50 +1,53 @@
-import "./styles.css";
-import {loadProjectsFromLocalStorage,saveProjectsOnLocalStorage} from "./components/storage";
-import {renderSidebar} from "./components/renderSidebar";
-import {Project} from "./models/Project";
-import {Todo} from "./models/Todo";
-import {renderContent} from "./components/renderContent";
+import './styles/style.css'
+import {renderSidebar} from "./components/sidebar";
+import {renderContent} from "./components/content";
+import dayjs from "dayjs";
 
-// App Start
+// Carica dallo storage all'avvio, oppure array vuoto
+// Definisco un oggetto state che rappresenta lo stato della mia applicazione
+// Contiene i todos, e il to-do selezionato da visualizzare
+const state = {
+    todos: JSON.parse(localStorage.getItem('todos')) || [],
+    selectedTodo: JSON.parse(localStorage.getItem('selectedTodo')) || null,
+    selectedId: JSON.parse(localStorage.getItem('selectedId')) || null,
+}
 
-const initProjects = []
+function addTodo(name,description) {
+    const newTodo = { id: Date.now(), date: dayjs(Date.now()).format('DD/MM/YYYY'), name: name, description : description , done: false }
+    state.todos.push(newTodo)
+    state.selectedTodo = newTodo
+    state.selectedId = newTodo.id
+    saveToStorage()  // ← salva dopo ogni modifica
+    render()
+}
 
-const p1Todos = []
-const p1t1 = new Todo(1,Date.now(),"First Task","Do stuff", Date.now(),1)
-const p1t2 = new Todo(2,Date.now(),"Second Task","Do stuff", Date.now(),1)
-p1Todos.push(p1t1);
-p1Todos.push(p1t2);
-const p1 = new Project(1,"Project 1",p1Todos)
-p1.selected = true;
+function selectTodo(id) {
+    state.selectedId = id
+    state.selectedTodo = state.todos.find(todo => todo.id === id)
+    saveToStorage()  // ← salva dopo ogni selezione
+    render()
+}
 
-const p2Todos = []
-const p2t1 = new Todo(3,Date.now(),"One Task", "Do stuff",Date.now(),1)
-const p2t2 = new Todo(4,Date.now(),"Two Task", "Do stuff",Date.now(),1)
-const p2t3 = new Todo(5,Date.now(),"Three Task", "Do stuff",Date.now(),1)
-p2Todos.push(p2t1);
-p2Todos.push(p2t2);
-p2Todos.push(p2t3);
-const p2 = new Project(2,"Project 2",p2Todos)
+function toggleDone() {
+    state.selectedTodo.done = !state.selectedTodo.done
+    saveToStorage()  // ← salva dopo ogni selezione
+    render()
+}
 
-const p3 = new Project(3,"Project 3",[])
+function saveToStorage() {
+    localStorage.setItem('todos', JSON.stringify(state.todos))
+    localStorage.setItem('selectedId', JSON.stringify(state.selectedId))
+    localStorage.setItem('selectedTodo', JSON.stringify(state.selectedTodo))
+}
 
-initProjects.push(p1);
-initProjects.push(p2);
-initProjects.push(p3);
-saveProjectsOnLocalStorage(initProjects)
+// La funzione render chiama il rendering dei vari componenti della pagina
+function render() {
+    // Devo passare le funzioni selectTodo e addTodo a renderSidebar perchè non ha accesso allo stato dell'applicazione
+    renderSidebar(state, selectTodo, addTodo)
+    if(state.selectedTodo !== null) {
+        renderContent(state, toggleDone)
+    }
+}
 
-const projects = loadProjectsFromLocalStorage()
-
-const container =  document.createElement("div");
-container.classList.add("container");
-
-const header =  document.createElement("header");
-const headerText = document.createElement("h1");
-headerText.textContent =  "To-Do-List"
-header.appendChild(headerText)
-
-container.appendChild(header);
-container.appendChild(renderSidebar(projects));
-container.appendChild(renderContent(projects[0].todos[0]));
-
-document.body.appendChild(container);
+// Chiamo render all'apertura dell'app e poi alla fine di ogni operazione sull'applicazione
+render()

@@ -6,6 +6,6 @@ export default merge(common, {
     devtool: 'inline-source-map',
     devServer: {
         port: 3030,
-        watchFiles: ["./src/template.html"],
+        watchFiles: ["./src/index.html"],
     },
 });
