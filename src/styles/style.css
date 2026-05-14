@@ -65,10 +65,11 @@ ul {
 }
 
 .project{
-    display: grid;
-    gap: 0.5rem;
-    justify-content: center;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 2px;
     color: hsl(0, 0%, 20%);  /* grigio scuro */
 }
 
@@ -87,6 +88,21 @@ ul {
      cursor: pointer;
      text-decoration: line-through;
  }
+
+.addTodo{
+    background-color: hsl(6, 90%, 71%);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    height: 1.5rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+.addTodo:hover {
+    background-color: hsl(6, 100%, 69%);
+    cursor: pointer;
+}
 
 .content{
     grid-row: 2/3;
