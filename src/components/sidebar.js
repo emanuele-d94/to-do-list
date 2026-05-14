@@ -41,7 +41,7 @@ function todoUl(state, selectTodo){
             todoLi.textContent = todo.title
 
             // rendering del to-do selezionato in sideBar
-            if(todo.id === state.selectedTodo.id) {
+            if(state.selectedTodo && todo.id === state.selectedTodo.id) {
                 todoLi.classList.add('active')
             }
 
@@ -77,7 +77,7 @@ function projectList(state, selectProject, addTodo, selectTodo){
         projectLi.textContent = project.title
 
         // rendering del progetto selezionato in sideBar
-        if(project.id === state.selectedProject.id) {
+        if(state.selectedProject && project.id === state.selectedProject.id) {
             projectLi.classList.add('active')
 
             // Il progetto selezionato mostra la lista di task

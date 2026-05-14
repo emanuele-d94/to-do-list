@@ -26,17 +26,21 @@ header{
     grid-column: 1/2;
     display: grid;
     grid-template-rows: 1fr 4fr;
-    justify-items: center;
-    align-items : start;
+    justify-items: start;
+    align-items: start;
     border-right: solid 2px hsl(0, 0%, 20%);
 }
 
 .button-area{
     grid-row: 1/2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .project-list{
     grid-row: 2/3;
+    width: 100%;
 }
 
 ul {
@@ -70,7 +74,10 @@ ul {
     justify-content: start;
     align-items: start;
     gap: 2px;
-    color: hsl(0, 0%, 20%);  /* grigio scuro */
+    color: hsl(0, 0%, 20%);
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: left;
 }
 
 .project:hover {
@@ -84,10 +91,10 @@ ul {
 }
 
 .project-done:hover {
-     color: hsl(6, 90%, 80%);
-     cursor: pointer;
-     text-decoration: line-through;
- }
+    color: hsl(6, 90%, 80%);
+    cursor: pointer;
+    text-decoration: line-through;
+}
 
 .addTodo{
     background-color: hsl(6, 90%, 71%);
@@ -121,7 +128,10 @@ ul {
     gap: 0.5rem;
     justify-content: center;
     align-items: center;
-    color: hsl(0, 0%, 20%);  /* grigio scuro */
+    color: hsl(0, 0%, 20%);
+    font-size: 0.85rem;
+    font-weight: normal;
+    margin-left: 1rem;
 }
 
 .todo:hover {
@@ -130,8 +140,11 @@ ul {
 }
 
 .todo-done{
-    color: hsl(0, 0%, 50%);  /* grigio scuro */
+    color: hsl(0, 0%, 50%);
     text-decoration: line-through;
+    font-size: 0.85rem;
+    font-weight: normal;
+    margin-left: 1rem;
 }
 
 .todo-done:hover{

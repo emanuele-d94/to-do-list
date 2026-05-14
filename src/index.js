@@ -19,14 +19,6 @@ function addProject(title) {
     render()
 }
 
-function addTodo(title, description, dueDate) {
-    const newTodo = { id: Date.now(), title: title, description: description, dueDate: dueDate, done: false}
-    state.selectedProject.todos.push(newTodo)
-    state.selectedTodo = newTodo
-    saveToStorage()  // ← salva dopo ogni modifica
-    render()
-}
-
 function selectProject(id) {
     //Selezione del progetto
     state.selectedProject = state.projects.find(p => p.id === id)
@@ -41,6 +33,15 @@ function selectProject(id) {
     render()
 }
 
+function addTodo(title, description, dueDate) {
+    const newTodo = { id: Date.now(), title: title, description: description, dueDate: dueDate, done: false}
+    state.selectedProject.todos.push(newTodo)
+    state.selectedTodo = newTodo
+    state.selectedProject.done = false  // ← resetta il progetto
+    saveToStorage()  // ← salva dopo ogni modifica
+    render()
+}
+
 function selectTodo(id) {
     //Selezione del to-do
     state.selectedTodo = state.selectedProject.todos.find(t => t.id === id)
@@ -48,11 +49,24 @@ function selectTodo(id) {
     render()
 }
 
-// function toggleDone() {
-//     state.selectedTodo.done = !state.selectedTodo.done
-//     saveToStorage()  // ← salva dopo ogni selezione
-//     render()
-// }
+function toggleDone() {
+    state.selectedTodo.done = !state.selectedTodo.done
+    // Verifica se tutti i to-do del progetto corrente sono done -> progetto done true altrimenti false
+    checkProjectDone()
+    saveToStorage()  // ← salva dopo ogni selezione
+    render()
+}
+
+function checkProjectDone(){
+    let projectDone = true
+    for (const todo of  state.selectedProject.todos) {
+        if (!todo.done) {
+            projectDone = false
+            break
+        }
+    }
+    state.selectedProject.done = projectDone
+}
 
 function saveToStorage() {
     localStorage.setItem('projects', JSON.stringify(state.projects))
@@ -64,9 +78,11 @@ function saveToStorage() {
 function render() {
     // Devo passare le funzioni selectTodo e addTodo a renderSidebar perchè non ha accesso allo stato dell'applicazione
     renderSidebar(state, selectProject, addProject, addTodo, selectTodo)
-    // if(state.selectedProject !== null) {
-    //     renderContent(state, toggleDone)
-    // }
+    if(state.selectedProject !== null && state.selectedProject.todos != null) {
+        if(state.selectedTodo != null) {
+            renderContent(state, toggleDone)
+        }
+    }
 }
 
 // Chiamo render all'apertura dell'app e poi alla fine di ogni operazione sull'applicazione

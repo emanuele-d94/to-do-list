@@ -6,8 +6,8 @@ export function renderContent(state, toggleDone) {
     todo.classList.add('todo-content')
 
     todo.innerHTML = `
-    <h2>Title: ${state.selectedTodo.name}</h2>
-    <p>Date: ${state.selectedTodo.date}</p>
+    <h2>Title: ${state.selectedTodo.title}</h2>
+    <p>Due Date: ${state.selectedTodo.dueDate}</p>
     <br>
     <p>${state.selectedTodo.description}</p>
   `
@@ -16,11 +16,20 @@ export function renderContent(state, toggleDone) {
     toggleDoneEl.setAttribute('type', 'checkbox') // ✅
     toggleDoneEl.checked = state.selectedTodo.done
 
-    toggleDoneEl.addEventListener('change', () => {
+    toggleDoneEl.addEventListener('change', (e) => {
+        e.stopPropagation()
         toggleDone()
     })
 
     todo.appendChild(toggleDoneEl)
+
+    // Pulsante Delete To-do
+    // const deleteTodoButton = document.createElement('button')
+    // deleteTodoButton.classList.add('addProject')
+    // deleteTodoButton.textContent = 'Delete'
+    // //deleteTodoButton.addEventListener('click', () => deleteTodo(state.selectedTodo.id))
+    //
+    // todo.appendChild(deleteTodoButton)
 
     content.appendChild(todo)
 }
