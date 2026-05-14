@@ -35,7 +35,7 @@ header{
     grid-row: 1/2;
 }
 
-.todo-list{
+.project-list{
     grid-row: 2/3;
 }
 
@@ -49,7 +49,7 @@ ul {
     align-items: flex-start;
 }
 
-.addTodo{
+.addProject{
     background-color: hsl(6, 90%, 71%);
     border: none;
     border-radius: 10px;
@@ -59,10 +59,34 @@ ul {
     min-width: 6rem;
 }
 
-.addTodo:hover {
+.addProject:hover {
     background-color: hsl(6, 100%, 69%);
     cursor: pointer;
 }
+
+.project{
+    display: grid;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    color: hsl(0, 0%, 20%);  /* grigio scuro */
+}
+
+.project:hover {
+    color: hsl(6, 90%, 71%);
+    cursor: pointer;
+}
+
+.project-done{
+    color: hsl(0, 0%, 50%);  /* grigio scuro */
+    text-decoration: line-through;
+}
+
+.project-done:hover {
+     color: hsl(6, 90%, 80%);
+     cursor: pointer;
+     text-decoration: line-through;
+ }
 
 .content{
     grid-row: 2/3;
@@ -90,12 +114,11 @@ ul {
 }
 
 .todo-done{
-
     color: hsl(0, 0%, 50%);  /* grigio scuro */
     text-decoration: line-through;
 }
 
-.todo-done:hover {
+.todo-done:hover{
     color: hsl(6, 90%, 80%);
     cursor: pointer;
     text-decoration: line-through;

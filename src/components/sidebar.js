@@ -1,6 +1,6 @@
 import {openModal} from "./modal";
 
-export function renderSidebar(state, selectTodo, addTodo) {
+export function renderSidebar(state, selectProject, addProject) {
 
     const sidebar = document.querySelector('.sidebar')
     sidebar.innerHTML = ''
@@ -8,45 +8,42 @@ export function renderSidebar(state, selectTodo, addTodo) {
     const buttonArea = document.createElement('div')
     buttonArea.classList.add('.button-area')
 
-    const toDoList = document.createElement('div')
-    buttonArea.classList.add('.todo-list')
+    const projectList = document.createElement('div')
+    buttonArea.classList.add('.project-list')
 
-    // Pulsante Nuovo To-do
-    const addTodoButton = document.createElement('button')
-    addTodoButton.classList.add('addTodo')
-    addTodoButton.textContent = 'Add Todo'
-    addTodoButton.addEventListener('click', () => openModal(addTodo))
-    buttonArea.appendChild(addTodoButton)
+    // Pulsante Nuovo Project
+    const addProjectButton = document.createElement('button')
+    addProjectButton.classList.add('addProject')
+    addProjectButton.textContent = 'Add Project'
+    addProjectButton.addEventListener('click', () => openModal(addProject))
+    buttonArea.appendChild(addProjectButton)
 
     sidebar.appendChild(buttonArea)
 
-    const todoUl = document.createElement('ul')
+    const projectUl = document.createElement('ul')
 
-    // Lista to-do
-    state.todos.forEach(todo => {
-        const todoEl = document.createElement('li')
-        // Se un to-do è ha done = true , allora nella sidebar mostro il testo sbarrato e grigio chiaro
-        if(todo.done){
-            todoEl.classList.add('todo-done')
+    // Lista Projects
+    state.projects.forEach(project => {
+        const projectEl = document.createElement('li')
+        // Se un project ha tutti i task con done = true , allora nella sidebar mostro il testo sbarrato e grigio chiaro
+        if(project.done){
+            projectEl.classList.add('project-done')
         } else {
-            todoEl.classList.add('todo')
+            projectEl.classList.add('project')
         }
 
 
-        todoEl.textContent = todo.name
-        if(todo.id === state.selectedTodo.id) {
-            todoEl.classList.add('active')
+        projectEl.textContent = project.title
+        if(project.id === state.selectedProject.id) {
+            projectEl.classList.add('active')
         }
-        todoEl.addEventListener('click', () => {
-            selectTodo(todo.id)
+        projectEl.addEventListener('click', () => {
+            selectProject(project.id)
         })
 
-
-
-
-        todoUl.appendChild(todoEl)
+        projectUl.appendChild(projectEl)
     })
 
-    toDoList.appendChild(todoUl)
-    sidebar.appendChild(toDoList)
+    projectList.appendChild(projectUl)
+    sidebar.appendChild(projectList)
 }
